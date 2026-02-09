@@ -66,8 +66,8 @@ public class Evento_Programado implements EventoProgramavelJava  {
 	public void beforeInsert(PersistenceEvent event) throws Exception {
 		DynamicVO voParceiro = (DynamicVO) event.getVo();
 
-	    String cep = voParceiro.asString("CEP");
-
+	    String cep = voParceiro.asString("CEP").trim();
+  
 	    if (cep == null) return;
 	    
 	    List<Endereco> pesquisaCep = PesquisaCepHelper.obterDadosDoCepLocal(cep);
@@ -92,7 +92,7 @@ public class Evento_Programado implements EventoProgramavelJava  {
 	public void beforeUpdate(PersistenceEvent event) throws Exception {
 		DynamicVO voParceiro = (DynamicVO) event.getVo();
 
-	    String cep = voParceiro.asString("CEP");
+	    String cep = voParceiro.asString("CEP").trim();
 
 	    if (cep == null) return;
 	    
