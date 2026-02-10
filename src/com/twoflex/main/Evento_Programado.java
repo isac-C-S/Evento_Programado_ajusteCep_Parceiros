@@ -64,25 +64,31 @@ public class Evento_Programado implements EventoProgramavelJava  {
 	*/
 	@Override
 	public void beforeInsert(PersistenceEvent event) throws Exception {
-		DynamicVO voParceiro = (DynamicVO) event.getVo();
+		DynamicVO voParceiro = (DynamicVO) event.getVo(); 	// Obtem o Evento de Persistencia.
 
-	    String cep = voParceiro.asString("CEP").trim();
+	    String cep = voParceiro.asString("CEP"); 			// Obtem o valor do CEP do Evento de Persistencia.
   
-	    if (cep == null) return;
-	    
-	    List<Endereco> pesquisaCep = PesquisaCepHelper.obterDadosDoCepLocal(cep);
-	    
-	    String cepAtual = pesquisaCep.get(0).getCep();
-	    BigDecimal codBairro = pesquisaCep.get(0).getCodBairro();
-	    BigDecimal codCidade = pesquisaCep.get(0).getCodCid();
-	    BigDecimal codEndereco = pesquisaCep.get(0).getCodEnd();
+	    if (cep == null || cep.trim().isEmpty()) return; 	// Se não Tiver Cep não fara nada.
 
-	    if (pesquisaCep != null && !pesquisaCep.isEmpty()) {
-	        if(cepAtual != null && !cepAtual.isEmpty()) voParceiro.setProperty("CEP", cepAtual);
-	        if(codBairro != null) voParceiro.setProperty("CODBAI", codBairro);
-	        if(codCidade != null) voParceiro.setProperty("CODCID", codCidade);
-	        if(codCidade != null) voParceiro.setProperty("CODEND", codEndereco);
+	    cep = cep.trim(); // Retira os Espaços Extras.
+	    
+	    List<Endereco> pesquisaCep = PesquisaCepHelper.obterDadosDoCepLocal(cep); // Utiliza o Helper do Sankhya para Obter os dados do Endereço.
+	    
+	    if (pesquisaCep == null || pesquisaCep.isEmpty()) { // Encerra o Processo Caso nao Tenha Endereço.
+	        return; 
 	    }
+	    
+	    Endereco endereco = pesquisaCep.get(0); 		// Obtem os Dados do Endereço.
+
+	    String cepAtual = endereco.getCep(); 			// Obtem o CEP.
+	    BigDecimal codBairro = endereco.getCodBairro(); // Obtem o Codigo do Bairro.
+	    BigDecimal codCidade = endereco.getCodCid(); 	// Obtem o Codigo da Cidade.
+	    BigDecimal codEndereco = endereco.getCodEnd(); 	// Obtem o Codigo do Endereço.
+
+	    if (cepAtual != null && !cepAtual.isEmpty()) voParceiro.setProperty("CEP", cepAtual); 	// Se Existir o CEP Atualiza.
+	    if (codBairro != null) voParceiro.setProperty("CODBAI", codBairro); 					// Se Existir o Codigo do Bairro Atualiza.
+	    if (codCidade != null) voParceiro.setProperty("CODCID", codCidade); 					// Se Existir o Codigo da Cidade Atualiza.
+	    if (codEndereco != null) voParceiro.setProperty("CODEND", codEndereco); 				// Se Existir o Codigo do Endereço Atualiza.
 	}
 
    /**
@@ -90,26 +96,31 @@ public class Evento_Programado implements EventoProgramavelJava  {
 	*/
 	@Override
 	public void beforeUpdate(PersistenceEvent event) throws Exception {
-		DynamicVO voParceiro = (DynamicVO) event.getVo();
+		DynamicVO voParceiro = (DynamicVO) event.getVo(); 	// Obtem o Evento de Persistencia.
 
-	    String cep = voParceiro.asString("CEP").trim();
+	    String cep = voParceiro.asString("CEP"); 			// Obtem o valor do CEP do Evento de Persistencia.
+  
+	    if (cep == null || cep.trim().isEmpty()) return; 	// Se não Tiver Cep não fara nada.
 
-	    if (cep == null) return;
+	    cep = cep.trim(); // Retira os Espaços Extras.
 	    
-	    List<Endereco> pesquisaCep = PesquisaCepHelper.obterDadosDoCepLocal(cep);
+	    List<Endereco> pesquisaCep = PesquisaCepHelper.obterDadosDoCepLocal(cep); // Utiliza o Helper do Sankhya para Obter os dados do Endereço.
 	    
-	    String cepAtual = pesquisaCep.get(0).getCep();
-	    BigDecimal codBairro = pesquisaCep.get(0).getCodBairro();
-	    BigDecimal codCidade = pesquisaCep.get(0).getCodCid();
-	    BigDecimal codEndereco = pesquisaCep.get(0).getCodEnd();
-
-	    if (pesquisaCep != null && !pesquisaCep.isEmpty()) {
-	        if(cepAtual != null && !cepAtual.isEmpty()) voParceiro.setProperty("CEP", cepAtual);
-	        if(codBairro != null) voParceiro.setProperty("CODBAI", codBairro);
-	        if(codCidade != null) voParceiro.setProperty("CODCID", codCidade);
-	        if(codCidade != null) voParceiro.setProperty("CODEND", codEndereco);
+	    if (pesquisaCep == null || pesquisaCep.isEmpty()) { // Encerra o Processo Caso nao Tenha Endereço.
+	        return; 
 	    }
-		
+	    
+	    Endereco endereco = pesquisaCep.get(0); 		// Obtem os Dados do Endereço.
+
+	    String cepAtual = endereco.getCep(); 			// Obtem o CEP.
+	    BigDecimal codBairro = endereco.getCodBairro(); // Obtem o Codigo do Bairro.
+	    BigDecimal codCidade = endereco.getCodCid(); 	// Obtem o Codigo da Cidade.
+	    BigDecimal codEndereco = endereco.getCodEnd(); 	// Obtem o Codigo do Endereço.
+
+	    if (cepAtual != null && !cepAtual.isEmpty()) voParceiro.setProperty("CEP", cepAtual); 	// Se Existir o CEP Atualiza.
+	    if (codBairro != null) voParceiro.setProperty("CODBAI", codBairro); 					// Se Existir o Codigo do Bairro Atualiza.
+	    if (codCidade != null) voParceiro.setProperty("CODCID", codCidade); 					// Se Existir o Codigo da Cidade Atualiza.
+	    if (codEndereco != null) voParceiro.setProperty("CODEND", codEndereco); 				// Se Existir o Codigo do Endereço Atualiza.
 	}
 
 }
